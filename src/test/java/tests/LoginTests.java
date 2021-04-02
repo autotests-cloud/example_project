@@ -1,4 +1,4 @@
-package tests.demoqa.webshop;
+package tests;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
@@ -17,10 +17,11 @@ public class LoginTests extends TestBase {
     void loginWithUiTest() {
         open("/login");
 
-        $("#Email").val("");
-        $("#Password").val("").pressEnter();
+        $("#Email").val(TestData.getUserLogin());
+        $("#Password").val(TestData.getUserPassword())
+                .pressEnter();
 
-        $(".account").shouldHave(text(""));
+        $(".account").shouldHave(text(TestData.getUserLogin()));
     }
 
     @Test
@@ -28,8 +29,8 @@ public class LoginTests extends TestBase {
         Map<String, String> cookiesMap =
                 given()
                         .contentType("application/x-www-form-urlencoded; charset=UTF-8")
-                        .formParam("Email", "")
-                        .formParam("Password", "")
+                        .formParam("Email", TestData.getUserLogin())
+                        .formParam("Password", TestData.getUserPassword())
                         .when()
                         .post("/login")
                         .then()
@@ -43,6 +44,6 @@ public class LoginTests extends TestBase {
         getWebDriver().manage().addCookie(new Cookie("ARRAffinity", cookiesMap.get("ARRAffinity")));
 
         open("");
-        $(".account").shouldHave(text(""));
+        $(".account").shouldHave(text(TestData.getUserLogin()));
     }
 }
