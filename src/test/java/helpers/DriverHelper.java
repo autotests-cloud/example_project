@@ -33,8 +33,12 @@ public class DriverHelper {
         return !getDriverConfig().webRemoteDriverUrl().equals("");
     }
 
+    public static String getVideoUrl() {
+        return getDriverConfig().videoStorage();
+    }
+
     public static boolean isVideoOn() {
-        return !getDriverConfig().videoStorage().equals("");
+        return !getVideoUrl().equals("");
     }
 
     public static String getSessionId(){
