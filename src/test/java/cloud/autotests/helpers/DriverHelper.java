@@ -1,13 +1,14 @@
-package helpers;
+package cloud.autotests.helpers;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
-import config.DriverConfig;
+import cloud.autotests.config.DriverConfig;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import tests.TestData;
+import cloud.autotests.tests.TestData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,15 @@ public class DriverHelper {
     private static DriverConfig getDriverConfig() {
         return ConfigFactory.newInstance().create(DriverConfig.class, System.getProperties());
     }
+
+    public static String getWebMobile() {
+        return getDriverConfig().webBrowserMobileView();
+    }
+
+    public static boolean isWebMobile() {
+        return !getWebMobile().equals("");
+    }
+
 
     public static String getWebRemoteDriver() {
         // https://%s:%s@selenoid.autotests.cloud/wd/hub/
@@ -58,19 +68,25 @@ public class DriverHelper {
         Configuration.baseUrl = TestData.getWebUrl();
         Configuration.timeout = 10000;
 
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+        if (isWebMobile()) { // for chrome only
+            ChromeOptions chromeOptions = new ChromeOptions();
+            Map<String, Object> mobileDevice = new HashMap<>();
+            mobileDevice.put("deviceName", getWebMobile());
+            chromeOptions.setExperimentalOption("mobileEmulation", mobileDevice);
+            capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+        }
+
         if (isRemoteWebDriver()) {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setCapability("enableVNC", true);
             capabilities.setCapability("enableVideo", true);
-            Configuration.browserCapabilities = capabilities;
             Configuration.remote = getWebRemoteDriver();
         }
 
-//        if (isWebMobile) {
-//            Map<String, Object> mobileDevice = new HashMap<>();
-//            mobileDevice.put("deviceName", webMobileDevice);
-//            chromeOptions.setExperimentalOption("mobileEmulation", mobileDevice);
-//        }
+        Configuration.browserCapabilities = capabilities;
+
+
     }
 
 }

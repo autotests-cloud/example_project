@@ -1,4 +1,4 @@
-package config;
+package cloud.autotests.config;
 
 import org.aeonbits.owner.Config;
 
@@ -18,6 +18,9 @@ public interface DriverConfig extends Config {
 
     @Key("web.browser.size")
     String webBrowserSize();
+
+    @Key("web.browser.mobile.view")
+    String webBrowserMobileView();
 
     @Key("web.remote.driver.url")
     String webRemoteDriverUrl();

@@ -8,7 +8,7 @@ repositories {
     mavenCentral()
 }
 
-def allureVersion = "2.13.8",
+def allureVersion = "2.13.9",
     selenideVersion = "5.20.1",
     junitVersion = "5.7.1"
 
@@ -36,10 +36,12 @@ dependencies {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks.withType(Test) {
-    systemProperties += System.properties
+    systemProperties(System.getProperties())
     useJUnitPlatform()
     systemProperty "chromeoptions.prefs", "intl.accept_languages=en"
 
