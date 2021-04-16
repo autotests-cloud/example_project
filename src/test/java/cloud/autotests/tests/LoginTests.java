@@ -2,6 +2,7 @@ package cloud.autotests.tests;
 
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 
@@ -17,6 +18,7 @@ import static io.restassured.RestAssured.given;
 public class LoginTests extends TestBase {
 
     @Test
+    @Tag("ui")
     @DisplayName("Successful authorization to some demowebshop")
     void loginTest() {
         step("Open login page", () -> {
@@ -35,6 +37,7 @@ public class LoginTests extends TestBase {
     }
 
     @Test
+    @Tag("api")
     @DisplayName("Successful authorization with set cookie, received by API")
     void loginWithCookieTest() {
         step("Get cookie by api and set it to browser", () -> {
