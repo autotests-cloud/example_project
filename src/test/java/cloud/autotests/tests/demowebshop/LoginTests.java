@@ -1,5 +1,7 @@
-package cloud.autotests.tests;
+package cloud.autotests.tests.demowebshop;
 
+import cloud.autotests.tests.TestBase;
+import cloud.autotests.tests.TestData;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
