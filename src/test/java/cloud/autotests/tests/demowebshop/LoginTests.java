@@ -1,11 +1,10 @@
 package cloud.autotests.tests.demowebshop;
 
 import cloud.autotests.tests.TestBase;
-import cloud.autotests.tests.TestData;
+import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Story;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
+import io.restassured.RestAssured;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.Cookie;
 
 import static cloud.autotests.api.LogFilter.filters;
@@ -19,8 +18,15 @@ import static io.restassured.RestAssured.given;
 @Story("Login tests")
 public class LoginTests extends TestBase {
 
+    @BeforeAll
+    static void configureBaseUrl() {
+        RestAssured.baseURI = TestData.getApiUrl();
+        Configuration.baseUrl = TestData.getWebUrl();
+    }
+
     @Test
     @Tag("ui")
+    @Disabled("Example test for further test development")
     @DisplayName("Successful authorization to some demowebshop")
     void loginTest() {
         step("Open login page", () -> {
@@ -40,6 +46,7 @@ public class LoginTests extends TestBase {
 
     @Test
     @Tag("api")
+    @Disabled("Example test for further test development")
     @DisplayName("Successful authorization with set cookie, received by API")
     void loginWithCookieTest() {
         step("Get cookie by api and set it to browser", () -> {

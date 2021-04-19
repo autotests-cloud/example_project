@@ -1,6 +1,6 @@
-package cloud.autotests.tests;
+package cloud.autotests.tests.demowebshop;
 
-import cloud.autotests.config.TestDataConfig;
+import cloud.autotests.config.demowebshop.TestDataConfig;
 import org.aeonbits.owner.ConfigFactory;
 
 public class TestData {

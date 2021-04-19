@@ -1,19 +1,18 @@
 package cloud.autotests.tests;
 
-import io.restassured.RestAssured;
+import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-import static com.codeborne.selenide.WebDriverRunner.closeWebDriver;
 import static cloud.autotests.helpers.AttachmentsHelper.*;
-import static cloud.autotests.helpers.AttachmentsHelper.attachVideo;
 import static cloud.autotests.helpers.DriverHelper.*;
+import static com.codeborne.selenide.WebDriverRunner.closeWebDriver;
 
-
+@ExtendWith({AllureJunit5.class})
 public class TestBase {
     @BeforeAll
     static void setUp() {
-        RestAssured.baseURI = TestData.getApiUrl();
         configureDriver();
     }
 
