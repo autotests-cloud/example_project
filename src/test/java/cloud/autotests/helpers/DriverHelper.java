@@ -65,7 +65,6 @@ public class DriverHelper {
         Configuration.browser = getDriverConfig().webBrowser();
         Configuration.browserVersion = getDriverConfig().webBrowserVersion();
         Configuration.browserSize = getDriverConfig().webBrowserSize();
-        Configuration.timeout = 10000;
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 

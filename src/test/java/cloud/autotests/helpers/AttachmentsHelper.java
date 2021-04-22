@@ -1,17 +1,26 @@
 package cloud.autotests.helpers;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
+import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 
 public class AttachmentsHelper {
+    private static final Logger LOG = LoggerFactory.getLogger(AttachmentsHelper.class);
+
 
     @Attachment(value = "{attachName}", type = "text/plain")
     public static String attachAsText(String attachName, String message) {
@@ -28,21 +37,33 @@ public class AttachmentsHelper {
         return getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
     }
 
-    @Attachment(value = "Video", type = "text/html", fileExtension = ".html")
-    public static String attachVideo(String sessionId) {
-        return "<html><body><video width='100%' height='100%' controls autoplay><source src='"
-                + getVideoUrl(sessionId)
-                + "' type='video/mp4'></video></body></html>";
+    public static void attachVideo(String sessionId) {
+        URL videoUrl = getVideoUrl(sessionId);
+        if (videoUrl != null) {
+            InputStream videoInputStream = null;
+            sleep(1000);
+
+            for (int i = 0; i < 10; i++) {
+                try {
+                    videoInputStream = videoUrl.openStream();
+                    break;
+                } catch (FileNotFoundException e) {
+                    sleep(1000);
+                } catch (IOException e) {
+                    LOG.warn("Cant attach allure video, {}", sessionId);
+                    e.printStackTrace();
+                }
+            }
+            Allure.addAttachment("Video", "video/mp4", videoInputStream, "mp4");
+        }
     }
 
-    public static String getVideoUrl(String sessionId) {
-        return getWebVideoUrl(sessionId);
-    }
-
-    public static String getWebVideoUrl(String sessionId) {
+    public static URL getVideoUrl(String sessionId) {
+        String url = DriverHelper.getVideoUrl() + sessionId + ".mp4";
         try {
-            return new URL(DriverHelper.getVideoUrl() + sessionId + ".mp4") + "";
+            return new URL(url);
         } catch (MalformedURLException e) {
+            LOG.warn("Wrong test video url, {}", url);
             e.printStackTrace();
         }
         return null;
