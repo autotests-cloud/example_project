@@ -46,7 +46,7 @@ public class LoginTests extends TestBase {
 
     @Test
     @Tag("api")
-//    @Disabled("Example test for further test development")
+    @Disabled("Example test for further test development")
     @DisplayName("Successful authorization with set cookie, received by API")
     void loginWithCookieTest() {
         step("Get cookie by api and set it to browser", () -> {
