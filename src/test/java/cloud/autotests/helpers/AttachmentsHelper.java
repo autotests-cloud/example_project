@@ -38,22 +38,35 @@ public class AttachmentsHelper {
     }
 
     public static void attachVideo(String sessionId) {
-        try {
-            URL videoUrl = new URL(DriverHelper.getVideoUrl() + sessionId + ".mp4");
-            InputStream is = null;
-            Thread.sleep(1000);
+        URL videoUrl = getVideoUrl(sessionId);
+        if (videoUrl != null) {
+            InputStream videoInputStream = null;
+            sleep(1000);
+
             for (int i = 0; i < 10; i++) {
                 try {
-                    is = videoUrl.openStream();
-                    i = 10;
+                    videoInputStream = videoUrl.openStream();
+                    break;
                 } catch (FileNotFoundException e) {
-                    Thread.sleep(1000);
+                    sleep(1000);
+                } catch (IOException e) {
+                    LOG.warn("[ALLURE VIDEO ATTACHMENT ERROR] Cant attach allure video, {}", videoUrl);
+                    e.printStackTrace();
                 }
             }
-            Allure.addAttachment("Video", "video/mp4", is, "mp4");
-        } catch (Exception e) {
-            System.out.println("attachAllureVideo");
-            e.printStackTrace();
+            Allure.addAttachment("Video", "video/mp4", videoInputStream, "mp4");
         }
     }
+
+    public static URL getVideoUrl(String sessionId) {
+        String videoUrl = DriverHelper.getVideoUrl() + sessionId + ".mp4";
+        try {
+            return new URL(videoUrl);
+        } catch (MalformedURLException e) {
+            LOG.warn("[ALLURE VIDEO ATTACHMENT ERROR] Wrong test video url, {}", videoUrl);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

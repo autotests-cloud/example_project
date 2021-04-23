@@ -24,8 +24,9 @@ public class TestBase {
         attachPageSource();
 //        attachNetwork(); // todo
         attachAsText("Browser console logs", getConsoleLogs());
-        if (isVideoOn()) attachVideo(sessionId);
 
         closeWebDriver();
+
+        if (isVideoOn()) attachVideo(sessionId);
     }
 }
