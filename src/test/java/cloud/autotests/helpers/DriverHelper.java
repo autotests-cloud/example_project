@@ -12,8 +12,10 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.codeborne.selenide.Selenide.getWebDriverLogs;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static com.codeborne.selenide.logevents.SelenideLogger.addListener;
+import static java.lang.String.join;
 import static org.openqa.selenium.logging.LogType.BROWSER;
 
 public class DriverHelper {
@@ -55,7 +57,7 @@ public class DriverHelper {
     }
 
     public static String getConsoleLogs() {
-        return String.join("\n", Selenide.getWebDriverLogs(BROWSER));
+        return join("\n", getWebDriverLogs(BROWSER));
     }
 
     public static void configureDriver() {

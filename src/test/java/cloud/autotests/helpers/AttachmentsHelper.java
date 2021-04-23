@@ -1,5 +1,6 @@
 package cloud.autotests.helpers;
 
+import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -15,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 
 import static com.codeborne.selenide.Selenide.sleep;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static io.qameta.allure.Allure.addAttachment;
 
 
 public class AttachmentsHelper {
@@ -36,8 +38,7 @@ public class AttachmentsHelper {
         return getWebDriver().getPageSource().getBytes(StandardCharsets.UTF_8);
     }
 
-    @Attachment(value = "Video", type = "video/mp4", fileExtension = "mp4")
-    public static InputStream attachVideo(String sessionId) {
+    public static void attachVideo(String sessionId) {
         URL videoUrl = getVideoUrl(sessionId);
         if (videoUrl != null) {
             InputStream videoInputStream = null;
@@ -54,9 +55,8 @@ public class AttachmentsHelper {
                     e.printStackTrace();
                 }
             }
-            return videoInputStream;
+            addAttachment("Video", "video/mp4", videoInputStream, "mp4");
         }
-        return null;
     }
 
     public static URL getVideoUrl(String sessionId) {
