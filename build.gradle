@@ -44,7 +44,7 @@ tasks.withType(JavaCompile) {
 tasks.withType(Test) {
     systemProperties(System.getProperties())
     useJUnitPlatform()
-    systemProperty "chromeoptions.prefs", "intl.accept_languages=en"
+//    systemProperty "chromeoptions.prefs", "intl.accept_languages=en"
 
     if (System.getProperty("threads") != null) {
         systemProperties += [
