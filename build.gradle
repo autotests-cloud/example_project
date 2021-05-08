@@ -71,6 +71,12 @@ task ui(type: Test) {
     }
 }
 
+task p(type: Test) {
+    useJUnitPlatform {
+        includeTags 'p'
+    }
+}
+
 task api(type: Test) {
     useJUnitPlatform {
         includeTags 'api'
