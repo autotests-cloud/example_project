@@ -26,7 +26,7 @@ public class LoginTests extends TestBase {
 
     @Test
     @Tag("ui")
-//    @Disabled("Example test code for further test development")
+    @Disabled("Example test code for further test development")
     @DisplayName("Successful authorization to some demowebshop")
     void loginTest() {
         step("Open login page", () -> {
