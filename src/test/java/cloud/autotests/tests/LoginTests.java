@@ -1,13 +1,13 @@
-package cloud.autotests.tests.demowebshop;
+package cloud.autotests.tests;
 
-import cloud.autotests.tests.TestBase;
+import cloud.autotests.config.App;
+import cloud.autotests.helpers.AllureRestAssuredFilter;
 import com.codeborne.selenide.Configuration;
 import io.qameta.allure.Story;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.Cookie;
 
-import static cloud.autotests.api.LogFilter.filters;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -20,13 +20,13 @@ public class LoginTests extends TestBase {
 
     @BeforeAll
     static void configureBaseUrl() {
-        RestAssured.baseURI = TestData.getApiUrl();
-        Configuration.baseUrl = TestData.getWebUrl();
+        RestAssured.baseURI = App.config.apiUrl();
+        Configuration.baseUrl = App.config.webUrl();
     }
 
     @Test
     @Tag("ui")
-    @Disabled("Example test code for further test development")
+//    @Disabled("Example test code for further test development")
     @DisplayName("Successful authorization to some demowebshop")
     void loginTest() {
         step("Open login page", () -> {
@@ -34,14 +34,13 @@ public class LoginTests extends TestBase {
             $(".page-title").shouldHave(text("Welcome, Please Sign In!"));
         });
 
-        step("Fill in login form", () -> {
-            $("#Email").val(TestData.getUserLogin());
-            $("#Password").val(TestData.getUserPassword())
-                    .pressEnter();
+        step("Fill login form", () -> {
+            $("#Email").setValue(App.config.userLogin());
+            $("#Password").setValue(App.config.userPassword()).pressEnter();
         });
 
         step("Verify successful authorization", () ->
-                $(".account").shouldHave(text(TestData.getUserLogin())));
+                $(".account").shouldHave(text(App.config.userLogin())));
     }
 
     @Test
@@ -52,16 +51,14 @@ public class LoginTests extends TestBase {
         step("Get cookie by api and set it to browser", () -> {
             String authorizationCookie =
                     given()
-                            .filter(filters().withCustomTemplates())
-                            .log().uri()
+                            .filter(AllureRestAssuredFilter.withCustomTemplates())
                             .contentType("application/x-www-form-urlencoded; charset=UTF-8")
-                            .formParam("Email", TestData.getUserLogin())
-                            .formParam("Password", TestData.getUserPassword())
-                    .when()
+                            .formParam("Email", App.config.userLogin())
+                            .formParam("Password", App.config.userPassword())
+                            .when()
                             .post("/login")
-                    .then()
+                            .then()
                             .statusCode(302)
-                            .log().body()
                             .extract()
                             .cookie("NOPCOMMERCE.AUTH");
 
@@ -77,6 +74,6 @@ public class LoginTests extends TestBase {
         });
 
         step("Verify successful authorization", () ->
-                $(".account").shouldHave(text(TestData.getUserLogin())));
+                $(".account").shouldHave(text(App.config.userLogin())));
     }
 }
