@@ -1,89 +1,27 @@
 package cloud.autotests.helpers;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import cloud.autotests.config.DriverConfig;
-import io.qameta.allure.selenide.AllureSelenide;
-import org.aeonbits.owner.ConfigFactory;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.codeborne.selenide.Selenide.getWebDriverLogs;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static com.codeborne.selenide.logevents.SelenideLogger.addListener;
-import static java.lang.String.join;
-import static org.openqa.selenium.logging.LogType.BROWSER;
+import cloud.autotests.config.Project;
 
 public class DriverHelper {
 
-    private static DriverConfig getDriverConfig() {
-        return ConfigFactory.newInstance().create(DriverConfig.class, System.getProperties());
-    }
-
-    public static String getWebMobile() {
-        return getDriverConfig().webBrowserMobileView();
-    }
-
     public static boolean isWebMobile() {
-        return !getWebMobile().equals("");
+        return !Project.config.browserMobileView().equals("");
     }
-
 
     public static String getWebRemoteDriver() {
         // https://%s:%s@selenoid.autotests.cloud/wd/hub/
-        return String.format(getDriverConfig().webRemoteDriverUrl(),
-                getDriverConfig().webRemoteDriverUser(),
-                getDriverConfig().webRemoteDriverPassword());
+        return String.format(
+                Project.config.remoteDriverUrl(),
+                Project.config.remoteDriverUser(),
+                Project.config.remoteDriverPassword()
+        );
     }
 
     public static boolean isRemoteWebDriver() {
-        return !getDriverConfig().webRemoteDriverUrl().equals("");
-    }
-
-    public static String getVideoUrl() {
-        return getDriverConfig().videoStorage();
+        return !Project.config.remoteDriverUrl().equals("");
     }
 
     public static boolean isVideoOn() {
-        return !getVideoUrl().equals("");
-    }
-
-    public static String getSessionId(){
-        return ((RemoteWebDriver) getWebDriver()).getSessionId().toString().replace("selenoid","");
-    }
-
-    public static String getConsoleLogs() {
-        return join("\n", getWebDriverLogs(BROWSER));
-    }
-
-    public static void configureDriver() {
-        addListener("AllureSelenide", new AllureSelenide());
-
-//        Configuration.baseUrl = TestData.getWebUrl();
-        Configuration.browser = getDriverConfig().webBrowser();
-        Configuration.browserVersion = getDriverConfig().webBrowserVersion();
-        Configuration.browserSize = getDriverConfig().webBrowserSize();
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-
-        if (isWebMobile()) { // for chrome only
-            ChromeOptions chromeOptions = new ChromeOptions();
-            Map<String, Object> mobileDevice = new HashMap<>();
-            mobileDevice.put("deviceName", getWebMobile());
-            chromeOptions.setExperimentalOption("mobileEmulation", mobileDevice);
-            capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
-        }
-
-        if (isRemoteWebDriver()) {
-            capabilities.setCapability("enableVNC", true);
-            capabilities.setCapability("enableVideo", true);
-            Configuration.remote = getWebRemoteDriver();
-        }
-
-        Configuration.browserCapabilities = capabilities;
+        return !Project.config.videoStorage().equals("");
     }
 }
