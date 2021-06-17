@@ -1,7 +1,9 @@
 package cloud.autotests.tests;
 
+import cloud.autotests.helpers.AllureAttachments;
 import cloud.autotests.helpers.BrowserSettings;
 import cloud.autotests.helpers.DriverUtils;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.junit5.AllureJunit5;
 import io.qameta.allure.selenide.AllureSelenide;
@@ -24,15 +26,16 @@ public class TestBase {
     @AfterEach
     public void addAttachments() {
         String sessionId = DriverUtils.getRemoteSessionIdFromSelenoid();
-        addScreenshotAs("Last screenshot");
-        addPageSource();
-//        attachNetwork(); // todo
-        addBrowserConsoleLogs();
 
-        closeWebDriver();
+        AllureAttachments.addScreenshotAs("Last screenshot");
+        AllureAttachments.addPageSource();
+//        AllureAttachments.attachNetwork(); // todo
+        AllureAttachments.addBrowserConsoleLogs();
+
+        Selenide.closeWebDriver();
 
         if (isVideoOn()) {
-            addVideo(sessionId);
+            AllureAttachments.addVideo(sessionId);
         }
     }
 }
