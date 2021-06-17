@@ -8,20 +8,20 @@ import static org.openqa.selenium.logging.LogType.BROWSER;
 public class DriverHelper {
 
     public static boolean isWebMobile() {
-        return !Project.config.browserMobileView().equals("");
+        return !Project.config.webBrowserMobileView().equals("");
     }
 
     public static String getWebRemoteDriver() {
         // https://%s:%s@selenoid.autotests.cloud/wd/hub/
         return String.format(
-                Project.config.remoteDriverUrl(),
-                Project.config.remoteDriverUser(),
-                Project.config.remoteDriverPassword()
+                Project.config.webRemoteDriverUrl(),
+                Project.config.webRemoteDriverUser(),
+                Project.config.webRemoteDriverPassword()
         );
     }
 
     public static boolean isRemoteWebDriver() {
-        return !Project.config.remoteDriverUrl().equals("");
+        return !Project.config.webRemoteDriverUrl().equals("");
     }
 
     public static boolean isVideoOn() {

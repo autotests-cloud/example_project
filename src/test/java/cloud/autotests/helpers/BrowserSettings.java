@@ -11,16 +11,16 @@ import java.util.Map;
 public class BrowserSettings {
 
     public static void configureDriver() {
-        Configuration.browser = Project.config.browser();
-        Configuration.browserVersion = Project.config.browserVersion();
-        Configuration.browserSize = Project.config.browserSize();
+        Configuration.browser = Project.config.webBrowser();
+        Configuration.browserVersion = Project.config.webBrowserVersion();
+        Configuration.browserSize = Project.config.webBrowserSize();
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         if (DriverHelper.isWebMobile()) { // for chrome only
             ChromeOptions chromeOptions = new ChromeOptions();
             Map<String, Object> mobileDevice = new HashMap<>();
-            mobileDevice.put("deviceName", Project.config.browserMobileView());
+            mobileDevice.put("deviceName", Project.config.webBrowserMobileView());
             chromeOptions.setExperimentalOption("mobileEmulation", mobileDevice);
             capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
         }

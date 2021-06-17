@@ -9,16 +9,16 @@ import org.aeonbits.owner.Config;
 })
 public interface AppConfig extends Config {
 
-    @Key("webUrl")
+    @Key("web.url")
     String webUrl();
 
-    @Key("apiUrl")
+    @Key("api.url")
     String apiUrl();
 
-    @Key("userLogin")
+    @Key("user.login")
     String userLogin();
 
-    @Key("userPassword")
+    @Key("user.password")
     String userPassword();
 
 }
