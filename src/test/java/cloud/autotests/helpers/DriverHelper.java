@@ -28,7 +28,7 @@ public class DriverHelper {
         return !Project.config.videoStorage().equals("");
     }
 
-    public static String getConsoleLogs() { // todo refactorfi
+    public static String getConsoleLogs() { // todo refactor
         return String.join("\n", Selenide.getWebDriverLogs(BROWSER));
     }
 }
