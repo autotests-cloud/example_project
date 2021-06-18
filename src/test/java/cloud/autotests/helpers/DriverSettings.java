@@ -8,27 +8,27 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BrowserSettings {
+public class DriverSettings {
 
-    public static void configureDriver() {
-        Configuration.browser = Project.config.webBrowser();
-        Configuration.browserVersion = Project.config.webBrowserVersion();
-        Configuration.browserSize = Project.config.webBrowserSize();
+    public static void configure() {
+        Configuration.browser = Project.config.browser();
+        Configuration.browserVersion = Project.config.browserVersion();
+        Configuration.browserSize = Project.config.browserSize();
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        if (DriverHelper.isWebMobile()) { // for chrome only
+        if (Project.isWebMobile()) { // for chrome only
             ChromeOptions chromeOptions = new ChromeOptions();
             Map<String, Object> mobileDevice = new HashMap<>();
-            mobileDevice.put("deviceName", Project.config.webBrowserMobileView());
+            mobileDevice.put("deviceName", Project.config.browserMobileView());
             chromeOptions.setExperimentalOption("mobileEmulation", mobileDevice);
             capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
         }
 
-        if (DriverHelper.isRemoteWebDriver()) {
+        if (Project.isRemoteWebDriver()) {
             capabilities.setCapability("enableVNC", true);
             capabilities.setCapability("enableVideo", true);
-            Configuration.remote = DriverHelper.getWebRemoteDriver();
+            Configuration.remote = Project.config.remoteDriverUrl();
         }
 
         Configuration.browserCapabilities = capabilities;

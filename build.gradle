@@ -65,14 +65,8 @@ tasks.withType(Test) {
     }
 }
 
-task ui(type: Test) {
+task demowebshop(type: Test) {
     useJUnitPlatform {
-        includeTags 'ui'
-    }
-}
-
-task api(type: Test) {
-    useJUnitPlatform {
-        includeTags 'api'
+        includeTags 'demowebshop'
     }
 }

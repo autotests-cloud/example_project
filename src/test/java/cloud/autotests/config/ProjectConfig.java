@@ -6,31 +6,28 @@ import org.aeonbits.owner.Config;
 @Config.Sources({
         "system:properties",
         "classpath:config/local.properties",
-        "classpath:config/remote_driver.properties"
+        "classpath:config/remote.properties"
 })
 public interface ProjectConfig extends Config {
 
-    @Key("web.browser")
-    String webBrowser();
+    @DefaultValue("chrome")
+    @Key("browser")
+    String browser();
 
-    @Key("web.browser.version")
-    String webBrowserVersion();
+    @DefaultValue("91.0")
+    @Key("browserVersion")
+    String browserVersion();
 
-    @Key("web.browser.size")
-    String webBrowserSize();
+    @DefaultValue("1920x1080")
+    @Key("browserSize")
+    String browserSize();
 
-    @Key("web.browser.mobile.view")
-    String webBrowserMobileView();
+    @Key("browserMobileView")
+    String browserMobileView();
 
-    @Key("web.remote.driver.url")
-    String webRemoteDriverUrl();
+    @Key("remoteDriverUrl")
+    String remoteDriverUrl();
 
-    @Key("web.remote.driver.user")
-    String webRemoteDriverUser();
-
-    @Key("web.remote.driver.password")
-    String webRemoteDriverPassword();
-
-    @Key("video.storage")
+    @Key("videoStorage")
     String videoStorage();
 }

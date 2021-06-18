@@ -1,6 +1,5 @@
 package cloud.autotests.helpers;
 
-import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Attachment;
 
@@ -11,7 +10,6 @@ import java.net.URL;
 
 import static cloud.autotests.helpers.Logging.LOGGER;
 import static com.codeborne.selenide.Selenide.sleep;
-import static org.openqa.selenium.logging.LogType.BROWSER;
 
 public class AllureAttachments {
 
@@ -21,7 +19,7 @@ public class AllureAttachments {
     }
 
     public static void addBrowserConsoleLogs() {
-        addMessage("Browser console logs", String.join("\n", Selenide.getWebDriverLogs(BROWSER)));
+        addMessage("Browser console logs", DriverUtils.getConsoleLogs());
     }
 
     @Attachment(value = "{attachName}", type = "image/png")

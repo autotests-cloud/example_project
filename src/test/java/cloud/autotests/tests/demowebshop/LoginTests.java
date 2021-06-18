@@ -1,6 +1,6 @@
 package cloud.autotests.tests.demowebshop;
 
-import cloud.autotests.config.App;
+import cloud.autotests.config.demowebshop.App;
 import cloud.autotests.helpers.AllureRestAssuredFilter;
 import cloud.autotests.tests.TestBase;
 import com.codeborne.selenide.Configuration;
@@ -26,18 +26,17 @@ public class LoginTests extends TestBase {
     }
 
     @Test
-    @Tag("regress")
+    @Tag("demowebshop")
     @Disabled("Example test code for further test development")
-    @DisplayName("Successful authorization to some demowebshop")
+    @DisplayName("Successful authorization to some demowebshop (UI)")
     void loginTest() {
-        step("Open login page", () -> {
-            open("/login");
-            $(".page-title").shouldHave(text("Welcome, Please Sign In!"));
-        });
+        step("Open login page", () ->
+                open("/login"));
 
         step("Fill login form", () -> {
             $("#Email").setValue(App.config.userLogin());
-            $("#Password").setValue(App.config.userPassword()).pressEnter();
+            $("#Password").setValue(App.config.userPassword())
+                    .pressEnter();
         });
 
         step("Verify successful authorization", () ->
@@ -45,9 +44,9 @@ public class LoginTests extends TestBase {
     }
 
     @Test
-    @Tag("api")
+    @Tag("demowebshop")
     @Disabled("Example test code for further test development")
-    @DisplayName("Successful authorization with set cookie, received by API")
+    @DisplayName("Successful authorization to some demowebshop (API + UI)")
     void loginWithCookieTest() {
         step("Get cookie by api and set it to browser", () -> {
             String authorizationCookie =
@@ -63,16 +62,16 @@ public class LoginTests extends TestBase {
                             .extract()
                             .cookie("NOPCOMMERCE.AUTH");
 
-            step("Open minimal content, because cookie can be set with site opened", () ->
+            step("Open minimal content, because cookie can be set when site is opened", () ->
                     open("/Themes/DefaultClean/Content/images/logo.png"));
 
-            getWebDriver().manage().addCookie(new Cookie("NOPCOMMERCE.AUTH", authorizationCookie));
+            step("Set cookie to to browser", () ->
+                    getWebDriver().manage().addCookie(
+                            new Cookie("NOPCOMMERCE.AUTH", authorizationCookie)));
         });
 
-        step("Open main page", () -> {
-            open("");
-            $(".topic-html-content-header").shouldHave(text("Welcome to our store"));
-        });
+        step("Open main page", () ->
+                open(""));
 
         step("Verify successful authorization", () ->
                 $(".account").shouldHave(text(App.config.userLogin())));
