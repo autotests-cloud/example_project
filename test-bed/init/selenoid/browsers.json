@@ -1,0 +1,25 @@
+{
+    "chrome": {
+      "default": "88.0",
+      "versions": {
+        "87.0": {
+          "env" : ["LANG=ru_RU.UTF-8", "LANGUAGE=ru:en", "LC_ALL=ru_RU.UTF-8", "TZ=Europe/Moscow"],
+          "image": "selenoid/vnc:chrome_75.0",
+          "tmpfs": {"/tmp": "size=512m"},
+          "port": "4444"
+        },
+        "88.0": {
+          "env": ["LANG=ru_RU.UTF-8", "LANGUAGE=ru:en", "LC_ALL=ru_RU.UTF-8", "TZ=Europe/Moscow"],
+          "image": "selenoid/vnc:chrome_76.0",
+          "tmpfs": {"/tmp": "size=512m"},
+          "port": "4444"
+        },
+        "89.0": {
+          "env" : ["LANG=ru_RU.UTF-8", "LANGUAGE=ru:en", "LC_ALL=ru_RU.UTF-8", "TZ=Europe/Moscow"],
+          "image": "selenoid/vnc:chrome_87.0",
+          "tmpfs": {"/tmp": "size=512m"},
+          "port": "4444"
+        }
+      }
+    }
+  }
