@@ -2,7 +2,7 @@ package cloud.autotests.tests;
 
 import cloud.autotests.config.Project;
 import cloud.autotests.helpers.AllureAttachments;
-import cloud.autotests.helpers.DriverSettings;
+import cloud.autotests.helpers.DriverManager;
 import cloud.autotests.helpers.DriverUtils;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
@@ -18,7 +18,7 @@ public class TestBase {
     @BeforeAll
     static void setUp() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-        DriverSettings.configure();
+        DriverManager.configureDefaultDriver();
     }
 
     @AfterEach
