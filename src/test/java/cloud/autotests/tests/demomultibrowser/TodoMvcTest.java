@@ -28,10 +28,10 @@ public class TodoMvcTest extends TestBase {
 
             // SelenideDriver otherUser = new SelenideDriver(DriverManager.newConfigWithDefaults());
             // OR:
-            SelenideDriver otherUser = DriverManager.newDriver();
-            otherUser.open("https://todomvc.com/examples/emberjs/");
+            SelenideDriver otherDriver = DriverManager.newDriver();
+            otherDriver.open("https://todomvc.com/examples/emberjs/");
 
-            otherUser.$$("#todo-list>li").shouldHave(size(0));
+            otherDriver.$$("#todo-list>li").shouldHave(size(0));
         }
     }
 

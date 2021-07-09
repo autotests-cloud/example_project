@@ -3,10 +3,14 @@ package cloud.autotests.helpers;
 import com.codeborne.selenide.*;
 import com.codeborne.selenide.impl.StaticConfig;
 import com.codeborne.selenide.impl.StaticDriver;
+import com.codeborne.selenide.impl.ThreadLocalSelenideDriver;
 
 public class Page {
 
+    // public static SelenideDriver defaultDriver = new ThreadLocalSelenideDriver();
+    // OR:
     public static SelenideDriver defaultDriver = new SelenideDriver(new StaticConfig(), new StaticDriver());
+
 
     protected SelenideDriver driver;
 
