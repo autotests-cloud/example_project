@@ -9,8 +9,8 @@ repositories {
 }
 
 def allureVersion = "2.13.9",
-    selenideVersion = "5.20.1",
-    junitVersion = "5.7.1"
+    selenideVersion = "5.22.2",
+    junitVersion = "5.7.2"
 
 allure {
     version = allureVersion
@@ -32,7 +32,9 @@ dependencies {
             "org.aeonbits.owner:owner:1.0.12",
             "org.assertj:assertj-core:3.19.0",
             "org.junit.jupiter:junit-jupiter-api:$junitVersion")
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testRuntimeOnly(
+            "org.slf4j:slf4j-simple:1.7.29",
+            "org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
 tasks.withType(JavaCompile) {
@@ -44,7 +46,6 @@ tasks.withType(JavaCompile) {
 tasks.withType(Test) {
     systemProperties(System.getProperties())
     useJUnitPlatform()
-//    systemProperty "chromeoptions.prefs", "intl.accept_languages=en"
 
     if (System.getProperty("threads") != null) {
         systemProperties += [
