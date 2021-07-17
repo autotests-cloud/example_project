@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
     Author: https://github.com/dtuchs
  */
 
+@Tag("junit5")
 public class JUnit5Annotations {
 
     @BeforeAll
@@ -29,13 +30,13 @@ public class JUnit5Annotations {
         System.out.println("this is after all methods!");
     }
 
-    @Test
+//    @Test
     void firstTest() {
         System.out.println("this is the first @test!");
         Assertions.assertTrue(true);
     }
 
-    @Test
+//    @Test
     void secondTest() {
         System.out.println("this is the second @test!");
         Assertions.assertTrue(true);
