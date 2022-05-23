@@ -19,10 +19,16 @@ import static io.restassured.RestAssured.given;
 @Story("Login tests")
 public class LoginTests extends TestBase {
 
+    static String login,
+            password;
+
     @BeforeAll
     static void configureBaseUrl() {
         RestAssured.baseURI = App.config.apiUrl();
         Configuration.baseUrl = App.config.webUrl();
+
+        login = App.config.userLogin();
+        password = App.config.userPassword();
     }
 
     @Test
@@ -34,13 +40,13 @@ public class LoginTests extends TestBase {
                 open("/login"));
 
         step("Fill login form", () -> {
-            $("#Email").setValue(App.config.userLogin());
-            $("#Password").setValue(App.config.userPassword())
+            $("#Email").setValue(login);
+            $("#Password").setValue(password)
                     .pressEnter();
         });
 
         step("Verify successful authorization", () ->
-                $(".account").shouldHave(text(App.config.userLogin())));
+                $(".account").shouldHave(text(login)));
     }
 
     @Test
@@ -53,8 +59,8 @@ public class LoginTests extends TestBase {
                     given()
                             .filter(AllureRestAssuredFilter.withCustomTemplates())
                             .contentType("application/x-www-form-urlencoded; charset=UTF-8")
-                            .formParam("Email", App.config.userLogin())
-                            .formParam("Password", App.config.userPassword())
+                            .formParam("Email", login)
+                            .formParam("Password", password)
                             .when()
                             .post("/login")
                             .then()
@@ -74,6 +80,6 @@ public class LoginTests extends TestBase {
                 open(""));
 
         step("Verify successful authorization", () ->
-                $(".account").shouldHave(text(App.config.userLogin())));
+                $(".account").shouldHave(text(login)));
     }
 }

@@ -24,13 +24,16 @@ public class SelenideSnippets {
     void browser_command_examples() {
 
         open("https://google.com");
-        open("/customer/orders");
-        open("/", AuthenticationType.BASIC, "user", "password");
+        open("/customer/orders");     // -Dselenide.baseUrl=http://google.com
+        open("/", AuthenticationType.BASIC,
+                new BasicAuthCredentials("user", "password"));
 
         Selenide.back();
+        Selenide.refresh();
 
         Selenide.clearBrowserCookies();
         Selenide.clearBrowserLocalStorage();
+        executeJavaScript("sessionStorage.clear();"); // no Selenide command for this yet
 
         Selenide.confirm(); // OK in alert dialogs
         Selenide.dismiss(); // Cancel in alert dialogs
@@ -56,10 +59,15 @@ public class SelenideSnippets {
         $(byText("full text")).click();
         $(withText("ull tex")).click();
 
+        $(byTagAndText("div", "full text"));
+        $(withTagAndText("div", "ull text"));
+
         $("").parent();       // find parent element
         $("").sibling(2);     // find down third sibling element
         $("").preceding(0);   // find up first sibling element
         $("").closest("div"); // find up the tree the next element with tag
+        $("").ancestor("div"); // the same as closest
+        $("div:last-child");
 
         $("div").$("h1").find(byText("abc")).click();
 
@@ -84,7 +92,8 @@ public class SelenideSnippets {
         $("").setValue("text");
         $("").append("text");
         $("").clear();
-        //
+        $("").setValue(""); // clear
+
         $("div").sendKeys("c"); // hotkey c on element
         actions().sendKeys("c").perform(); //hotkey c on whole application
         actions().sendKeys(Keys.chord(Keys.CONTROL, "f")).perform(); // Ctrl + F
@@ -114,7 +123,7 @@ public class SelenideSnippets {
 
         //longer timeouts
         $("").shouldBe(visible, Duration.ofSeconds(30));
-        $("").waitUntil(visible, 30000);  //is deprecated
+        // $("").waitUntil(visible, 30000);  //is deprecated
 
     }
 
@@ -199,6 +208,6 @@ public class SelenideSnippets {
     void javascript_examples() {
         executeJavaScript("alert('selenide')");
         executeJavaScript("alert(arguments[0]+arguments[1])", "abc", 12);
-        long fortytwo = executeJavaScript("return arguments[0]*arguments[1];", 6, 7);
+        long fortyTwo = executeJavaScript("return arguments[0]*arguments[1];", 6, 7);
     }
 }
